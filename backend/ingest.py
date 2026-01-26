@@ -2,7 +2,7 @@ import os
 import json
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
-from backend.embedder import HomieEmbedder  
+from embedder import HomieEmbedder  
 
 QDRANT_URL = "https://a9c95c9f-8d40-45cc-b9b2-9b2ef9ce0da9.europe-west3-0.gcp.cloud.qdrant.io"
 QDRANT_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.V5_kAU9dMt48OGzrEXQ-I23cSXzjoNDgJ1j71e03llM"
