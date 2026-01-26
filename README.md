@@ -1,32 +1,56 @@
-Data Structure & Architecture:
+# 🏠 Homie: Moteur de Recherche Étudiant (Backend Engine)
 
-Cette section détaille l'organisation des données sources utilisées par Homie pour alimenter le moteur de décision. L'objectif est de fournir un "langage commun" entre les données brutes, les vecteurs d'IA et les filtres de recherche.
+**Homie** est un moteur de recherche intelligent pour les étudiants en Tunisie. Contrairement aux cartes classiques, il utilise l'IA pour comprendre des requêtes subjectives comme *"endroit calme pour réviser"* ou *"café pas cher avec wifi"*.
 
-1. Format des Données (Mock Data):
-   
-Les données sont stockées au format JSON dans le fichier mock_data.json. Chaque établissement (restaurant, magasin, boutique, café) suit un schéma strict pour garantir la compatibilité avec Qdrant.
+> ⚠️ **État du projet :** Ce dépôt contient le **Backend (FastAPI)** et l'intégration **Qdrant**. Le Frontend est en cours de développement.
 
-2. Dictionnaire des Payloads:
- 
-Chaque objet possède les champs suivants, utilisés pour le filtrage et la recommandation :
+---
 
-{
-  "id": { "type": "int" },
-  "name": { "type": "string", "Role":"Identité de l'établissement", "Possible values":"Ex:Pasta Express" },
-  "description":{ "type": "string", "Role":"Base pour l'embedding (IA)", "Possible values":"Texte riche (mots-clés contextuels)"  },
-  "price_range": { "type": "string", "Role":"Filtrage par budget", "Possible values":"low, medium, high" }",
-  "has_student_promo":{ "type": "boolean", "Role":"Priorisation "Best Value"", "Possible values":"true , false" },
-  "location_category": { "type": "string", "Role":"Classification thématique", "Possible values":"food, shop, clothes, cafe" }
-}
+## 🛠️ Stack Technique
+* **Langage:** Python 3.12
+* **API Framework:** FastAPI
+* **Base de Données Vectorielle:** Qdrant Cloud
+* **Modèle IA:** `paraphrase-multilingual-MiniLM-L12-v2` (Sentence Transformers)
+* **Architecture:** REST API
 
-3. Logique de Validation (Tests Unitaires):
+---
 
-Pour assurer la fiabilité des recommandations, un protocole de test manuel a été appliqué sur les 50 établissements :
+## 📂 Structure du Projet
+L'architecture suit une organisation claire pour séparer la logique serveur des données.
 
-*Validation des Promos : Vérification que chaque tag true est justifié par une mention explicite dans la description.
+```text
+homie/
+├── backend/
+│   ├── main.py        
+│   ├── ingest.py      
+│   ├── search.py      
+│   └── places.json    
+├── requirements.txt   
+└── README.md   
 
-*Cohérence Sémantique : Alignement des descriptions avec le niveau de prix (price_range).
+## Guide d'Installation
+git clone [https://github.com/malekMS7/homie-fincommerce-engine.git](https://github.com/malekMS7/homie-fincommerce-engine.git)
+cd homie-fincommerce-engine
+python -m venv venv
+.\venv\Scripts\Activate
+pip install -r requirements.txt
 
-*Qualité Syntaxique : Validation via VS Code pour garantir l'absence d'erreurs d'ID ou de format JSON.
+## lancer et tester
+python -m uvicorn backend.main:app --reload
+
+methode1 de test:
+
+Ouvrez votre navigateur sur : http://127.0.0.1:8000/docs
+
+Cliquez sur la section GET /search
+
+Cliquez sur le bouton Try it out
+
+Saisissez une requête (ex: "cheap coffee for studying")
+
+Cliquez sur Execute
 
 
+methode2 de test:
+
+Tester via URL Directe:Vous pouvez aussi voir la réponse JSON brute ici : http://127.0.0.1:8000/search?query=calm%20place
