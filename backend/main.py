@@ -22,7 +22,7 @@ print("🧠 Loading AI Model...")
 model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
 
 print("☁️ Connecting to Qdrant Cloud...")
-client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, timeout=60)
 
 class SearchQuery(BaseModel):
     query: str
