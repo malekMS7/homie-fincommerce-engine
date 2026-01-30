@@ -47,21 +47,21 @@ The project follows a clean architecture separating the Python backend logic fro
 
 ```bash
 homie/
-├── backend/             # 🧠 The Brain (Python Logic & Database)
-│   ├── main.py          # Entry point of the application
-│   ├── search.py        # Semantic search engine & Intent detection
-│   ├── embedder.py      # Sentence-Transformer model wrapper
-│   ├── ingest.py        # Script to load 'places.json' into Qdrant
-│   └── setup_qdrant.py  # Qdrant collection initialization
+├── backend/             
+│   ├── main.py          
+│   ├── search.py        
+│   ├── embedder.py      
+│   ├── ingest.py        
+│   └── setup_qdrant.py  
 │   └── places.json
 │   └── process-data.py
-├── frontend/            # 🎨 The Face (User Interface)
-│   ├── index.html       # Main HTML structure
-│   ├── style.css        # Styling and layout
-│   └── app.js           # Client-side logic
+├── frontend/            
+│   ├── index.html       
+│   ├── style.css        
+│   └── app.js           
 │
-├── requirements.txt     # Python dependencies
-└── README.md            # Project documentation
+├── requirements.txt     
+└── README.md            
 
 ## 🚀 Setup
 
