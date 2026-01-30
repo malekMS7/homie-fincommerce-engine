@@ -5,7 +5,6 @@ async function searchPlaces() {
     const container = document.getElementById("resultsContainer");
     const loading = document.getElementById("loading");
 
-    // Reset UI
     container.innerHTML = "";
     loading.classList.remove("hidden");
 
@@ -24,9 +23,6 @@ async function searchPlaces() {
         }
 
         const data = await response.json();
-        
-        // FIX 1: Access the 'results' list inside the object
-        // The screenshot shows the list is inside data.results
         const places = data.results || [];
 
         loading.classList.add("hidden");
@@ -36,21 +32,32 @@ async function searchPlaces() {
             return;
         }
 
-        // FIX 2: Use the property names exactly as shown in your screenshot
-        // (name, description, price, promo) - No 'payload' needed!
         places.forEach(place => {
-            // Handle price badge color
-            let badgeColor = "medium"; // default yellow
-            if (place.price === "low") badgeColor = "low";   // green
-            if (place.price === "high") badgeColor = "high"; // red
+            let colorClass = 'price-red'; 
+            let priceSign = '$$$';
             
+            if (place.price === 'low') {
+                colorClass = 'price-green';
+                priceSign = '$';
+            } else if (place.price === 'medium') {
+                colorClass = 'price-yellow';
+                priceSign = '$$';
+            }
+
             const cardHTML = `
-                <div class="card">
+                <div>
                     <h3>${place.name}</h3>
                     <p>${place.description}</p>
-                    <span class="badge ${badgeColor}">💰 ${place.price || 'Standard'}</span>
-                    ${place.promo ? '<p class="promo">✨ Student Deal Available!</p>' : ''}
-                    <small style="color: #bbb; display: block; margin-top: 10px;">Match Score: ${(place.score * 100).toFixed(1)}%</small>
+                    
+                    <div style="margin-top:10px;">
+                        <span class="price-btn ${colorClass}">
+                            ${priceSign} ${place.price ? place.price.toUpperCase() : 'STANDARD'}
+                        </span>
+                    </div>
+
+                    ${place.promo ? '<p class="deal-text">✨ Student Deal Available!</p>' : ''}
+                    
+                    <p class="match-score">Match Score: ${(place.score * 100).toFixed(1)}%</p>
                 </div>
             `;
             container.innerHTML += cardHTML;
@@ -63,7 +70,6 @@ async function searchPlaces() {
     }
 }
 
-// Allow pressing "Enter" key to search
 document.getElementById("searchInput").addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         searchPlaces();
