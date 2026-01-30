@@ -1,56 +1,80 @@
-# 🏠 Homie: Moteur de Recherche Étudiant (Backend Engine)
+# 🏠 Homie - Student Deals Semantic Search
 
-**Homie** est un moteur de recherche intelligent pour les étudiants en Tunisie. Contrairement aux cartes classiques, il utilise l'IA pour comprendre des requêtes subjectives comme *"endroit calme pour réviser"* ou *"café pas cher avec wifi"*.
+Homie is a smart search engine designed to help students find the best deals (food, clothes, and shops) based on their budget and intent.
 
-> ⚠️ **État du projet :** Ce dépôt contient le **Backend (FastAPI)** et l'intégration **Qdrant**. Le Frontend est en cours de développement.
+Unlike traditional keyword search, Homie uses **Vector Semantic Search** to understand the *meaning* behind a query.
+
+* **The Architecture:**
+    1. **Sentence-Transformers:** Converts user queries into numerical vectors (embeddings).
+    2. **Qdrant:** Stores these vectors and performs high-speed similarity search to find the most relevant places.
+* **Smart Filtering:** Automatically detects intent (e.g., "cheap" = `Low Price`) to filter Qdrant results dynamically.
+---
+
+## 🏗️ What's inside of this app?
+
+### Software Stack
+
+| Component | Description |
+| :--- | :--- |
+| **Qdrant** | Vector database used to store and search place embeddings with high speed. |
+| **Sentence-Transformers** | The NLP model used to convert user queries and database items into vectors. |
+| **Python (v3.x)** | The main programming language for the backend logic. |
+| **Streamlit** | The frontend framework to display the search interface. |
+
+### Application Components
+
+| File | Description |
+| :--- | :--- |
+| `main.py` | **The Frontend (Streamlit).** The entry point of the application. Run this to start the user interface. |
+| `search.py` | **The Brain.** Handles the "smart" logic: detects intent (Price/Category) and queries Qdrant. |
+| `embedder.py` | **The Model Wrapper.** Manages the Sentence-Transformer model to vectorize text. |
+| `setup_qdrant.py` | **Database Setup.** Script to create the Qdrant collection and configure the schema. |
+| `ingest.py` | **Data Loader.** Reads `places.json` and uploads the data into the Qdrant database. |
+| `places.json` | **The Dataset.** Contains the raw list of student deals (names, descriptions, prices). |
+| `fix_indexes.py` | **Maintenance.** A utility script to ensure Qdrant filters (like price) work correctly. |
+| `test_brain.py` | **Testing.** A script to test the search logic without running the full interface. |
+---
+
+## 🛠️ Prerequisites
+
+* **Python (v3.10+)**
+* A **Qdrant Cloud** account (API Key & URL).
 
 ---
 
-## 🛠️ Stack Technique
-* **Langage:** Python 3.12
-* **API Framework:** FastAPI
-* **Base de Données Vectorielle:** Qdrant Cloud
-* **Modèle IA:** `paraphrase-multilingual-MiniLM-L12-v2` (Sentence Transformers)
-* **Architecture:** REST API
+## 🚀 Setup
 
----
+### 1. Clone the repository
+```bash
+git clone [https://github.com/votre-pseudo/homie.git](https://github.com/votre-pseudo/homie.git)
+cd homie
+### 2. Setup the virtual environment
+It is recommended to use a virtual environment to avoid conflicts with other projects.
 
-## 📂 Structure du Projet
-L'architecture suit une organisation claire pour séparer la logique serveur des données.
-
-```text
-homie/
-├── backend/
-│   ├── main.py        
-│   ├── ingest.py      
-│   ├── search.py      
-│   └── places.json    
-├── requirements.txt   
-└── README.md   
-
-## Guide d'Installation
-git clone [https://github.com/malekMS7/homie-fincommerce-engine.git](https://github.com/malekMS7/homie-fincommerce-engine.git)
-cd homie-fincommerce-engine
+```bash
+# 1. Create the virtual environment
 python -m venv venv
-.\venv\Scripts\Activate
+
+# 2. Activate it:
+# On Windows:
+.\venv\Scripts\activate
+
+# On Mac / Linux:
+source venv/bin/activate
+### 3. Install required dependencies
+Install all the necessary Python libraries (Streamlit, Qdrant, AI models) with this command:
+
+```bash
 pip install -r requirements.txt
+### 4. Configuration
+ To connect the app to the Qdrant Cloud database, you need to set up your credentials.
 
-## lancer et tester
-python -m uvicorn backend.main:app --reload
+1. Open the `search.py` file.
+2. Locate the configuration section at the top.
+3. Replace the values with your own Qdrant Cluster URL and API Key:
 
-methode1 de test:
+```python
+# In search.py
 
-Ouvrez votre navigateur sur : http://127.0.0.1:8000/docs
-
-Cliquez sur la section GET /search
-
-Cliquez sur le bouton Try it out
-
-Saisissez une requête (ex: "cheap coffee for studying")
-
-Cliquez sur Execute
-
-
-methode2 de test:
-
-Tester via URL Directe:Vous pouvez aussi voir la réponse JSON brute ici : http://127.0.0.1:8000/search?query=calm%20place
+QDRANT_URL = "[https://your-cluster-url.qdrant.io](https://your-cluster-url.qdrant.io)"
+QDRANT_API_KEY = "your-api-key-starting-with-eyJ..."
