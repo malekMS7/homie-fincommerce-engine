@@ -17,10 +17,10 @@ Unlike traditional keyword search, Homie uses **Vector Semantic Search** to unde
 | Component | Description |
 | :--- | :--- |
 | **Qdrant** | Vector database used to store and search place embeddings with high speed. |
-| **Sentence-Transformers** | The NLP model used to convert user queries and database items into vectors. |
-| **Python (v3.x)** | The main programming language for the backend logic. |
-| **Streamlit** | The frontend framework to display the search interface. |
-
+| **`paraphrase-multilingual-MiniLM-L12-v2`** | The specific **Sentence-Transformer** model used. It supports 50+ languages including French and is optimized for semantic similarity. |
+| **REST API** | The architectural style used to communicate with the Qdrant Cloud instance. |
+| **Python (v3.x)** | The main programming language for the backend logic and data processing. |
+| **Streamlit** | The frontend framework to display the search interface interactively. |
 ### Application Components
 
 | File | Description |
@@ -41,6 +41,27 @@ Unlike traditional keyword search, Homie uses **Vector Semantic Search** to unde
 * A **Qdrant Cloud** account (API Key & URL).
 
 ---
+## 📂 Project Structure
+
+The project follows a clean architecture separating the Python backend logic from the frontend interface.
+
+```bash
+homie/
+├── backend/             # 🧠 The Brain (Python Logic & Database)
+│   ├── main.py          # Entry point of the application
+│   ├── search.py        # Semantic search engine & Intent detection
+│   ├── embedder.py      # Sentence-Transformer model wrapper
+│   ├── ingest.py        # Script to load 'places.json' into Qdrant
+│   └── setup_qdrant.py  # Qdrant collection initialization
+│   └── places.json
+│   └── process-data.py
+├── frontend/            # 🎨 The Face (User Interface)
+│   ├── index.html       # Main HTML structure
+│   ├── style.css        # Styling and layout
+│   └── app.js           # Client-side logic
+│
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
 
 ## 🚀 Setup
 
